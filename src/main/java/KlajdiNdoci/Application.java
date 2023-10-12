@@ -73,7 +73,7 @@ public class Application {
         ));
 
         ordersTotalPrice.forEach(((customer, totalPrice) -> {
-            System.out.println("Il totale del cliente " + customer.getName() + " é: " + totalPrice);
+            System.out.println("Il totale del cliente " + customer.getName() + " é: " + totalPrice + "€");
         }));
 
         System.out.println();
@@ -109,8 +109,34 @@ public class Application {
                     .mapToDouble(Product::getPrice)
                     .average()
                     .orElse(0);
-            System.out.println("La media dei prezzi dell'ordine numero " + i + " é: " + averagePriceInOrder);
+            System.out.println("La media dei prezzi dell'ordine numero " + i + " é di: " + averagePriceInOrder + "€");
         });
+
+        System.out.println();
+        System.out.println("************************EXERCISE 5*****************************");
+        System.out.println();
+
+        List<Product> productList = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            productList.add(new Product(faker.book().title(), "books"));
+            productList.add(new Product(faker.commerce().productName(), "baby"));
+            productList.add(new Product(faker.commerce().productName(), "boys"));
+
+        }
+
+        Map<String, List<Product>> productByCategory = productList.stream().collect(Collectors.groupingBy(Product::getCategory));
+
+
+        productByCategory.forEach(((category, products) -> {
+            System.out.println(category);
+            System.out.println(products);
+            double categoryTotal = products.stream()
+                    .mapToDouble(Product::getPrice)
+                    .sum();
+            System.out.println("Il totale della categoria " + category + " é di: " + categoryTotal + "€");
+            System.out.println();
+        }));
 
     }
 }
