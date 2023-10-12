@@ -4,7 +4,11 @@ import KlajdiNdoci.entities.Customer;
 import KlajdiNdoci.entities.Order;
 import KlajdiNdoci.entities.Product;
 import com.github.javafaker.Faker;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -129,7 +133,7 @@ public class Application {
 
 
         productByCategory.forEach(((category, products) -> {
-            System.out.println(category);
+            System.out.println("Categoria " + category);
             System.out.println(products);
             double categoryTotal = products.stream()
                     .mapToDouble(Product::getPrice)
@@ -137,6 +141,28 @@ public class Application {
             System.out.println("Il totale della categoria " + category + " é di: " + categoryTotal + "€");
             System.out.println();
         }));
+
+        System.out.println();
+        System.out.println("************************EXERCISE 6*****************************");
+        System.out.println();
+
+        StringBuilder fileContent = new StringBuilder();
+
+        for (Product product : productList) {
+            String productData = String.format("%s@%s@%.2f@", product.getName(), product.getCategory(), product.getPrice());
+            fileContent.append(productData);
+
+        }
+        File file = new File("src/output.txt");
+        try {
+            FileUtils.writeStringToFile(file, fileContent + System.lineSeparator(), StandardCharsets.UTF_8, true);
+
+            String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+            System.out.println("Nel file ho trovato: " + content);
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 }
