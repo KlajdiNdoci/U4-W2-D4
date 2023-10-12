@@ -60,5 +60,21 @@ public class Application {
             });
         }));
 
+        System.out.println();
+        System.out.println("************************EXERCISE 2*****************************");
+        System.out.println();
+
+        Map<Customer, Double> ordersTotalPrice = ordersByCustomer.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey, customerOrders -> customerOrders.getValue().stream()
+                        .flatMap(order -> order.getProducts().stream())
+                        .mapToDouble(Product::getPrice)
+                        .sum()
+        ));
+
+        ordersTotalPrice.forEach(((customer, totalPrice) -> {
+            System.out.println("Il totale del cliente " + customer.getName() + " é: " + totalPrice);
+        }));
+
+    
     }
 }
