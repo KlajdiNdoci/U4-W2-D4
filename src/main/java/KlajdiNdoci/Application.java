@@ -75,6 +75,23 @@ public class Application {
             System.out.println("Il totale del cliente " + customer.getName() + " é: " + totalPrice);
         }));
 
-    
+        System.out.println();
+        System.out.println("************************EXERCISE 3*****************************");
+        System.out.println();
+
+        orders.forEach(order -> {
+            double highestPriceInOrder = order.getProducts().stream()
+                    .mapToDouble(Product::getPrice)
+                    .max()
+                    .orElse(0);
+
+            Product productWithHighestPrice = order.getProducts().stream()
+                    .filter(product -> product.getPrice() == highestPriceInOrder)
+                    .findFirst()
+                    .orElse(null);
+
+            System.out.println("Il prodotto con il prezzo piú alto di questa lista é " + productWithHighestPrice);
+
+        });
     }
 }
