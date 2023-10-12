@@ -6,6 +6,7 @@ import KlajdiNdoci.entities.Product;
 import com.github.javafaker.Faker;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -93,5 +94,23 @@ public class Application {
             System.out.println("Il prodotto con il prezzo piú alto di questa lista é " + productWithHighestPrice);
 
         });
+
+        System.out.println();
+        System.out.println("************************EXERCISE 4*****************************");
+        System.out.println();
+
+        AtomicInteger orderCount = new AtomicInteger();
+
+        orders.forEach(order -> {
+
+            int i = orderCount.incrementAndGet();
+
+            double averagePriceInOrder = order.getProducts().stream()
+                    .mapToDouble(Product::getPrice)
+                    .average()
+                    .orElse(0);
+            System.out.println("La media dei prezzi dell'ordine numero " + i + " é: " + averagePriceInOrder);
+        });
+
     }
 }
